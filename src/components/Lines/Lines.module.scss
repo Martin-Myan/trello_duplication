@@ -1,0 +1,23 @@
+.lines {
+  width: 98%;
+  padding: 8px 11px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  border: 8px solid grey;
+  background-color: #1c1d20;
+
+  &:last-child {
+    margin-bottom: 0px;
+  }
+
+  &__id {
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 8px;
+  }
+
+  &__text {
+    color: white;
+  }
+}

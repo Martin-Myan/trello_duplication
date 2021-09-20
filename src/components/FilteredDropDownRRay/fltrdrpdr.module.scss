@@ -1,0 +1,62 @@
+.drop_down {
+  position: relative;
+
+  &__btn {
+    height: 44px;
+    display: flex;
+    font-size: 16px;
+    color: #020b2a;
+    line-height: 24px;
+    padding: 10px 17px;
+    position: relative;
+    font-weight: normal;
+    align-items: center;
+    border-radius: 22px;
+    font-family: Poppins;
+    background: #ffffff;
+    box-sizing: border-box;
+    letter-spacing: 0.02em;
+    border: 1px solid #eff2f4;
+    justify-content: space-between;
+
+    &__arrow {
+      margin-left: 8px;
+
+      // &::placeholder{
+
+      // }
+    }
+  }
+
+  &__tablcik {
+    font-size: 16px;
+    color: #020b2a;
+    min-height: 100%;
+    line-height: 24px;
+    padding: 10px 17px;
+    position: absolute;
+    font-weight: normal;
+    align-items: center;
+    border-radius: 22px;
+    font-family: Poppins;
+    background: #ffffff;
+    box-sizing: border-box;
+    letter-spacing: 0.02em;
+    border: 1px solid #eff2f4;
+
+    border-top: none;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+
+    &__items {
+      display: block;
+      font-size: 18px;
+      color: #020b2a;
+      line-height: 26px;
+      font-weight: normal;
+      background: #ffffff;
+      box-sizing: border-box;
+      letter-spacing: 0.02em;
+    }
+  }
+}
