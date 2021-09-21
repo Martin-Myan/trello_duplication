@@ -25,7 +25,9 @@ const RenderPiller = () => {
   // }, [columns]);
 
   //////////////
-  const dragChildStartHandler = (el) => {
+  const dragChildStartHandler = (e, el) => {
+    console.log(el);
+    setDraggablePiller(el.columnId);
     // if (el) {
     //   setTablickDrag(false);
     // }
@@ -42,6 +44,8 @@ const RenderPiller = () => {
   };
 
   const dragChildEndHandler = (e, el) => {
+    setDraggablePiller(null);
+
     // setIsItemDragable(false);
     // console.log(el, "dragChildEndHandler");
   };
@@ -55,6 +59,7 @@ const RenderPiller = () => {
         lines={lines}
         columns={columns}
         currentCard={currentCard}
+        draggablePiller={draggablePiller}
         editCurrentCard={editCurrentCardHandler}
       >
         {lines

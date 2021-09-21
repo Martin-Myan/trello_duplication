@@ -17,13 +17,21 @@ const Pillar = ({
   columns,
   children,
   currentCard,
-  tablickDrag,
+  draggablePiller,
   editCurrentCard,
 }) => {
   const { title, id } = item;
   const dispatch = useDispatch();
 
   const [isDragable, setIsDragable] = useState(true);
+
+  useEffect(() => {
+    if (draggablePiller && draggablePiller === currentCard.id) {
+      setIsDragable(false);
+    } else {
+      setIsDragable(true);
+    }
+  }, [draggablePiller]);
 
   const dragStartHandler = () => {
     editCurrentCard(item);
