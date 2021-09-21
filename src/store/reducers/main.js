@@ -24,7 +24,7 @@ const initialState = {
       title: "todo4",
     },
   ],
-  items: [
+  lines: [
     {
       id: 1,
       columnId: 1,
@@ -105,7 +105,7 @@ const reducers = (state = initialState, { type, payload }) => {
     case SET_ITEMS: {
       return {
         ...state,
-        items: payload,
+        lines: payload,
       };
     }
 
@@ -119,7 +119,7 @@ const reducers = (state = initialState, { type, payload }) => {
     case ADD_ITEM: {
       return {
         ...state,
-        items: [...state.items, payload],
+        lines: [...state.lines, payload],
       };
     }
 
