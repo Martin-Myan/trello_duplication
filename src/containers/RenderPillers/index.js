@@ -1,121 +1,110 @@
-import React, { useState /*, useEffect*/ } from "react";
-// import Dragula from "react-dragula";
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 import { Piller, Lines } from "../../components";
-import { trelloItems, tasckItem } from "../../utils/index";
+
+import { setColumns } from "../../store/actions";
 
 import styles from "./RenderPiller.module.scss";
 
 const RenderPiller = () => {
-  // const dragulaArray = Dragula({ containers: trelloItems }).containers;
-  // const [pillerIDhook, setPillerIDhook] = useState("");
-  // const [pillerIDsecondeHook, setPillerIDsecondeHook] = useState("");
-  const [dragulaArray, setDragulaArray] = useState(trelloItems); ///setCardList cardList
-  const [currentCard, setCurrentCard] = useState(null);
+  const dispatch = useDispatch();
 
-  const [boards, setBoards] = useState(tasckItem);
-  // const [currentItem, setCurrentItem] = useState(null);
+  const [currentCard, setCurrentCard] = useState(null);
+  const [isDragable, setIsDragable] = useState(true);
+  const [isItemDragable, setIsItemDragable] = useState(true);
+
+  const columns = useSelector((store) => store.main.columns);
+  const items = useSelector((store) => store.main.items);
+
+  // console.log({ columns, items });
 
   const addNewCard = () => {};
-
-  // id  idNumber
-  // order      title
-  // card      item
-  //card.text   item.title
-
+  ////columns.id    items.columnId
   const dragStartHandler = (e, item) => {
+    setIsItemDragable(false);
     setCurrentCard(item);
   };
 
-  // const dragEndHandler = (e) => {};
-
   const dragOverHandler = (e) => {
     e.preventDefault();
+    // console.log(e);
+  };
+
+  const dragEndHandler = (e) => {
+    setIsItemDragable(true);
   };
 
   const dropHandler = (e, item) => {
     e.preventDefault();
-    setDragulaArray(
-      dragulaArray.map((c) => {
-        if (c.idNumber === item.idNumber) {
-          return { ...c, title: currentCard.title };
-        }
-        if (c.idNumber === currentCard.idNumber) {
-          return { ...c, title: item.title };
-        }
-        return c;
-      })
-    );
+    if (isDragable) {
+      const dropIndex = columns.findIndex((el) => el?.id === item?.id);
+      const dragIndex = columns.findIndex((el) => el?.id === currentCard?.id);
+
+      let tempArray = [...columns];
+      tempArray.splice(dropIndex, 0, ...tempArray.splice(dragIndex, 1));
+      dispatch(setColumns(tempArray));
+    }
   };
 
-  const dragChildOverHandler = (e, boards, el) => {
-    e.preventDefault();
+  const dragChildStartHandler = (el) => {
+    setIsDragable(false);
   };
-  const dragChildStartHandler = () => {};
-  const dragChildEndHandler = () => {};
-  const dragChildLeavHandler = () => {};
-  const dropChildHandler = (e, boards, el) => {
+
+  const dragChildOverHandler = (e) => {
     e.preventDefault();
   };
 
-  // const renderMixedArray = () => {
-  //   for (let i = 0; i < dragulaArray.length; i++) {
-  //     if (dragulaArray[i].idNumber === pillerIDhook) {
-  //       for (let e = 0; e < dragulaArray.length; e++) {
-  //         if (dragulaArray[e].idNumber === pillerIDsecondeHook) {
-  //           console.log(i, e);
-  //           return ([dragulaArray[i], dragulaArray[e]] = [
-  //             dragulaArray[e],
-  //             dragulaArray[i],
-  //           ]);
-  //         }
-  //       }
-  //     }
-  //   }
-  // };
-  // renderMixedArray();
+  const dropChildHandler = (e, el) => {
+    e.preventDefault();
+    console.log(el, "start");
+  };
+  const dragChildEndHandler = (e) => {
+    setIsDragable(true);
+  };
 
-  // useEffect(() => {
-  // setPillerIDhook("");
-  // setPillerIDsecondeHook("");
-  // }, []);
+  const quantityPayment = columns?.map((item) => {
+    return items.filter((el) => el?.columnId === item.id).map((el) => el);
+  });
 
-  const renderItemsToPuller = dragulaArray?.map((item) => {
-    const quantityPayment = () => {
-      if (tasckItem.length === 1) {
-        return " 1";
-      } else if (tasckItem.length > 1) {
-        return `s ${tasckItem.length}`;
-      } else {
-        return " 0";
-      }
-    };
+  const quantityPaymentChangeHandler = (index) => {
+    if (quantityPayment[index].length === 1) {
+      return " 1";
+    } else if (quantityPayment[index].length > 1) {
+      return `s ${quantityPayment[index].length}`;
+    } else {
+      return " 0";
+    }
+  };
 
+  const renderItemsToPuller = columns?.map((item, index) => {
     return (
       <Piller
-        key={item.idNumber}
+        key={item.id}
+        draggable={isDragable}
         headTitle={item.title}
+        id={item.id}
         add_new_card={addNewCard}
-        quantity={quantityPayment()}
-        //
-        onDragStart={(e) => dragStartHandler(e, item)}
-        // onDragLeave={(e) => dragEndHandler(e)}
-        // onDragEnd={(e) => dragEndHandler(e)}
-        onDragOver={(e) => dragOverHandler(e)}
+        quantity={quantityPaymentChangeHandler(index)}
         onDrop={(e) => dropHandler(e, item)}
+        onDragStart={(e) => dragStartHandler(e, item)}
+        onDragOver={(e) => dragOverHandler(e)}
+        onDragEnd={(e) => dragEndHandler(e, item)}
       >
-        {boards.map((el) => (
-          <Lines
-            onDragOver={(e) => dragChildOverHandler(e, boards, el)}
-            onDragLeave={(e) => dragChildLeavHandler(e)}
-            onDragStart={(e) => dragChildStartHandler(e, item)}
-            onDragEnd={(e) => dragChildEndHandler(e)}
-            onDrop={(e) => dropChildHandler(e, boards, el)}
-            text={el.text}
-            key={el.idNumber}
-            idNumber={el.idNumber}
-          />
-        ))}
+        {items
+          .filter((el) => el?.columnId === item.id)
+          .map((el) => (
+            <Lines
+              key={el?.id}
+              idNumber={el.id}
+              text={el.description}
+              draggable={isItemDragable}
+              onDrop={(e) => dropChildHandler(e, el)}
+              onDragStart={(e) => dragChildStartHandler(e, item)}
+              onDragOver={(e) => dragChildOverHandler(e)}
+              onDragEnd={(e) => dragChildEndHandler(e, item)}
+            />
+          ))}
       </Piller>
     );
   });

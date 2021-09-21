@@ -13,6 +13,7 @@ const Pillar = ({
   children,
   headTitle,
   onDragEnd,
+  draggable,
   onDragOver,
   onDragLeave,
   onDragStart,
@@ -21,7 +22,7 @@ const Pillar = ({
   return (
     <section
       onDrop={onDrop}
-      draggable={true}
+      draggable={draggable}
       onDragEnd={onDragEnd}
       onDragOver={onDragOver}
       onDragLeave={onDragLeave}
@@ -50,6 +51,7 @@ const Pillar = ({
 
 Pillar.propTypes = {
   children: PropTypes.any,
+  draggable: PropTypes.bool,
   quantity: PropTypes.string,
   headTitle: PropTypes.string,
   add_new_card: PropTypes.func,
@@ -57,6 +59,7 @@ Pillar.propTypes = {
 
 Pillar.defaultProps = {
   quantity: "",
+  draggable: true,
   add_new_card: noop,
   headTitle: "Add Pillar title",
 };

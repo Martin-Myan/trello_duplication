@@ -1,5 +1,4 @@
 import React from "react";
-import shortid from "shortid";
 import PropTypes from "prop-types";
 
 import { noop } from "../../utils";
@@ -10,15 +9,18 @@ const Lines = ({
   text,
   onDrop,
   idNumber,
+  draggable,
   onDragEnd,
   onDragOver,
   onDragLeave,
   onDragStart,
+  dragableClick,
 }) => {
   return (
     <div
+      onClick={dragableClick}
       onDrop={onDrop}
-      draggable={true}
+      draggable={draggable}
       onDragEnd={onDragEnd}
       onDragOver={onDragOver}
       className={styles.lines}
@@ -33,24 +35,26 @@ const Lines = ({
 
 Lines.propTypes = {
   text: PropTypes.string,
-  idNumber: PropTypes.string,
-
+  idNumber: PropTypes.any,
+  draggable: PropTypes.bool,
   onDrop: PropTypes.func,
   onDragEnd: PropTypes.func,
   onDragOver: PropTypes.func,
   onDragLeave: PropTypes.func,
   onDragStart: PropTypes.func,
+  dragableClick: PropTypes.func,
 };
 
 Lines.defaultProps = {
   text: "TEXT",
-
   onDrop: noop,
   onDragEnd: noop,
+  draggable: false,
   onDragOver: noop,
   onDragLeave: noop,
   onDragStart: noop,
-  idNumber: shortid.generate(),
+  dragableClick: noop,
+  // idNumber: shortid.generate(),
 };
 
 export default Lines;

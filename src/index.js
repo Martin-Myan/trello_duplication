@@ -6,12 +6,12 @@ import { createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 
 import App from "./App";
-import { reducers } from "./store/reducers";
+import rootReducer from "./store/reducers";
 
 import "./index.css";
 
 const store = createStore(
-  reducers,
+  rootReducer,
   composeWithDevTools(applyMiddleware(thunk))
 );
 

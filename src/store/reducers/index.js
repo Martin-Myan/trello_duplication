@@ -1,10 +1,7 @@
-const initialState = {
-  exampleEmpetyArray: [],
-};
+import { combineReducers } from "redux";
 
-export const reducers = (state = initialState, { type, payload }) => {
-  switch (type) {
-    default:
-      return state;
-  }
-};
+import main from "./main";
+
+export default combineReducers({
+  main,
+});
