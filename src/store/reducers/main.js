@@ -42,6 +42,7 @@ const reducers = (state = initialState, { type, payload }) => {
         columns: [...state.columns, payload],
       };
     }
+
     case EDIT_LINES: {
       const { itemId, pillerId } = payload;
       const filterLines = state.lines.find((el) => el.id === itemId);
@@ -57,6 +58,7 @@ const reducers = (state = initialState, { type, payload }) => {
         lines: filterLinesList,
       };
     }
+
     default:
       return state;
   }

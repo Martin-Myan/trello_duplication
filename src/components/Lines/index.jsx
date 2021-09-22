@@ -8,26 +8,22 @@ import styles from "./Lines.module.scss";
 const Lines = ({
   text,
   onDrop,
-  idNumber,
   draggable,
   onDragEnd,
   onDragOver,
-  onDragLeave,
   onDragStart,
   dragableClick,
 }) => {
   return (
     <div
-      onClick={dragableClick}
       onDrop={onDrop}
       draggable={draggable}
       onDragEnd={onDragEnd}
+      onClick={dragableClick}
       onDragOver={onDragOver}
       className={styles.lines}
-      onDragLeave={onDragLeave}
       onDragStart={onDragStart}
     >
-      <h2 className={styles.lines__id}>ID: {idNumber}</h2>
       <p className={styles.lines__text}>{text}</p>
     </div>
   );
@@ -35,12 +31,10 @@ const Lines = ({
 
 Lines.propTypes = {
   text: PropTypes.string,
-  idNumber: PropTypes.any,
   draggable: PropTypes.bool,
   onDrop: PropTypes.func,
   onDragEnd: PropTypes.func,
   onDragOver: PropTypes.func,
-  onDragLeave: PropTypes.func,
   onDragStart: PropTypes.func,
   dragableClick: PropTypes.func,
 };
@@ -51,10 +45,8 @@ Lines.defaultProps = {
   onDragEnd: noop,
   draggable: false,
   onDragOver: noop,
-  onDragLeave: noop,
   onDragStart: noop,
   dragableClick: noop,
-  // idNumber: shortid.generate(),
 };
 
 export default Lines;

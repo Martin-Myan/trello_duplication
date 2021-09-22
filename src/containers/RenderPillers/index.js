@@ -22,20 +22,21 @@ const RenderPiller = () => {
     setCurrentCard(card);
   };
 
-  const dragChildStartHandler = (e, el) => {
+  const dragStartHandler = (e, el) => {
+    console.log(e, el, "dragStartHandler");
     setDraggablePiller(el.columnId);
   };
-
-  const dragChildOverHandler = (e) => {
-    e.preventDefault();
-  };
-
-  const dropChildHandler = (e, el) => {
+  const dropHandler = (e, el) => {
+    console.log(e, el, "dropHandler");
     e.preventDefault();
     setCurrentLines(el.columnId);
   };
-
-  const dragChildEndHandler = (e, el) => {
+  const dragOverHandler = (e) => {
+    // console.log(e, "dragOverHandler");
+    e.preventDefault();
+  };
+  const dragEndHandler = (e, el) => {
+    console.log(e, el, "dragEndHandler");
     setDraggablePiller(null);
     dispatch(editLines(el.id, currentLines));
   };
@@ -57,13 +58,12 @@ const RenderPiller = () => {
           .map((el) => (
             <Lines
               key={el.id}
-              idNumber={el.id}
               text={el.description}
               draggable={isItemDragable}
-              onDrop={(e) => dropChildHandler(e, el)}
-              onDragStart={(e) => dragChildStartHandler(e, el)}
-              onDragOver={(e) => dragChildOverHandler(e, el)}
-              onDragEnd={(e) => dragChildEndHandler(e, el)}
+              onDrop={(e) => dropHandler(e, el)}
+              onDragStart={(e) => dragStartHandler(e, el)}
+              onDragOver={(e) => dragOverHandler(e, el)}
+              onDragEnd={(e) => dragEndHandler(e, el)}
             />
           ))}
       </Piller>

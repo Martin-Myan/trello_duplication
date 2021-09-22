@@ -31,6 +31,7 @@ const Pillar = ({
     } else {
       setIsDragable(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [draggablePiller]);
 
   const dragStartHandler = () => {
@@ -55,12 +56,6 @@ const Pillar = ({
       dispatch(setColumns(tempArray));
     }
   };
-
-  useEffect(() => {
-    // if (dragEndHandler()) {
-    //   setIsDragable(true);
-    // }
-  }, []);
 
   const quantityPayment = columns?.map((item) => {
     return lines.filter((el) => el?.columnId === item.id).map((el) => el);
