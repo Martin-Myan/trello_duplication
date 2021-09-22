@@ -1,7 +1,9 @@
+import shortid from "shortid";
 import {
   SET_ITEMS,
   ADD_ITEM,
   ADD_COLUMN,
+  EDIT_LINES,
   SET_COLUMNS,
 } from "../actions/actionTypes";
 
@@ -26,73 +28,73 @@ const initialState = {
   ],
   lines: [
     {
-      id: 1,
+      id: shortid.generate(),
       columnId: 1,
       title: "blabla",
       description: "ahfeakhgfhadv",
     },
     {
-      id: 15,
+      id: shortid.generate(),
       columnId: 1,
       title: "Nor Text",
       description: "Taza inch vor ban",
     },
     {
-      id: 2,
+      id: shortid.generate(),
       columnId: 1,
       title: "blabla",
       description: "ahfeakhgfhadv",
     },
     {
-      id: 3,
+      id: shortid.generate(),
       columnId: 1,
       title: "blabla",
       description: "ahfeakhgfhadv",
     },
     {
-      id: 4,
+      id: shortid.generate(),
       columnId: 2,
       title: "blabla",
       description: "ahfeakhgfhadv",
     },
     {
-      id: 5,
+      id: shortid.generate(),
       columnId: 1,
       title: "blabla",
       description: "ahfeakhgfhadv",
     },
     {
-      id: 6,
+      id: shortid.generate(),
       columnId: 3,
       title: "blabla",
       description: "ahfeakhgfhadv",
     },
     {
-      id: 7,
+      id: shortid.generate(),
       columnId: 4,
       title: "blabla",
       description: "ahfeakhgfhadv",
     },
     {
-      id: 15,
+      id: shortid.generate(),
       columnId: 4,
       title: "TITLE",
       description: "AFGAN",
     },
     {
-      id: 8,
+      id: shortid.generate(),
       columnId: 3,
       title: "blabla",
-      description: "ahfeakhgfhadv",
+      description: "AAAAAA",
     },
     {
-      id: 9,
+      id: shortid.generate(),
       columnId: 4,
       title: "blabla",
       description: "ahfeakhgfhadv",
     },
     {
-      id: 10,
+      id: shortid.generate(),
       columnId: 14,
       title: "blabla",
       description: "ahfeakhgfhadv",
@@ -127,6 +129,13 @@ const reducers = (state = initialState, { type, payload }) => {
       return {
         ...state,
         columns: [...state.columns, payload],
+      };
+    }
+    case EDIT_LINES: {
+      const filter = 0;
+
+      return {
+        ...state,
       };
     }
     default:

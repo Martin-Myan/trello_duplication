@@ -1,53 +1,44 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
+import { editLines } from "../../store/actions";
 import { Piller, Lines } from "../../components";
 
 import styles from "./RenderPiller.module.scss";
 
 const RenderPiller = () => {
+  const dispatch = useDispatch();
+
   const [currentCard, setCurrentCard] = useState(null);
   const [isItemDragable, setIsItemDragable] = useState(true);
   const [draggablePiller, setDraggablePiller] = useState(null);
-
-  const [tablickDrag, setTablickDrag] = useState(true);
 
   const columns = useSelector((store) => store.main.columns);
   const lines = useSelector((store) => store.main.lines);
 
   const editCurrentCardHandler = (card) => {
     setCurrentCard(card);
-    // setIsItemDragable(false);
   };
 
-  // useEffect(() => {
-  //   setIsItemDragable(true);
-  // }, [columns]);
-
-  //////////////
   const dragChildStartHandler = (e, el) => {
-    console.log(el);
     setDraggablePiller(el.columnId);
-    // if (el) {
-    //   setTablickDrag(false);
-    // }
   };
 
   const dragChildOverHandler = (e) => {
     e.preventDefault();
-    // setIsItemDragable(false);
   };
 
   const dropChildHandler = (e, el) => {
     e.preventDefault();
-    // setIsItemDragable(false);
+    dispatch(editLines(el.columnId, ""));
+    console.log(el.columnId, "el.columnId,");
   };
 
   const dragChildEndHandler = (e, el) => {
     setDraggablePiller(null);
-
-    // setIsItemDragable(false);
-    // console.log(el, "dragChildEndHandler");
+    dispatch(editLines("", el.id));
+    console.log(el.id, "el.id");
   };
 
   const renderItemsToPuller = columns.map((item, index) => {

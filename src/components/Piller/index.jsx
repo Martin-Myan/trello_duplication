@@ -35,19 +35,14 @@ const Pillar = ({
 
   const dragStartHandler = () => {
     editCurrentCard(item);
-    // setIsDragable(true);
   };
 
   const dragOverHandler = (e) => {
     e.preventDefault();
     e.stopPropagation();
-
-    // setIsDragable(true);
   };
 
-  const dragEndHandler = (e) => {
-    // setIsDragable(true);
-  };
+  const dragEndHandler = (e) => {};
 
   const dropHandler = (e) => {
     e.preventDefault();

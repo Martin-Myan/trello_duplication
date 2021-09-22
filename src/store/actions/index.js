@@ -1,4 +1,10 @@
-import { SET_ITEMS, ADD_ITEM, ADD_COLUMN, SET_COLUMNS } from "./actionTypes";
+import {
+  SET_ITEMS,
+  ADD_ITEM,
+  ADD_COLUMN,
+  SET_COLUMNS,
+  EDIT_LINES,
+} from "./actionTypes";
 
 export const setItems = (items) => ({
   type: SET_ITEMS,
@@ -18,4 +24,9 @@ export const addItem = (item) => ({
 export const addColumn = (column) => ({
   type: ADD_COLUMN,
   payload: column,
+});
+
+export const editLines = (linesId, pillerId) => ({
+  type: EDIT_LINES,
+  payload: { linesId, pillerId },
 });
