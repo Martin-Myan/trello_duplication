@@ -8,7 +8,6 @@ import styles from "./Lines.module.scss";
 const Lines = ({
   text,
   onDrop,
-  draggable,
   onDragEnd,
   onDragOver,
   onDragStart,
@@ -17,7 +16,7 @@ const Lines = ({
   return (
     <div
       onDrop={onDrop}
-      draggable={draggable}
+      draggable={true}
       onDragEnd={onDragEnd}
       onClick={dragableClick}
       onDragOver={onDragOver}

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
+import PropTypes from "prop-types";
+import shortid from "shortid";
 
 import { noop } from "../../utils";
-import { setColumns } from "../../store/actions";
+import { setColumns, addItem } from "../../store/actions";
 
 import { ReactComponent as Add } from "../../icons/add.svg";
 import { ReactComponent as Ellipsis } from "../../icons/ellipsis.svg";
@@ -22,7 +23,7 @@ const Pillar = ({
 }) => {
   const { title, id } = item;
   const dispatch = useDispatch();
-
+  const [newValue, setNewValue] = useState("");
   const [isDragable, setIsDragable] = useState(true);
 
   useEffect(() => {
@@ -71,6 +72,22 @@ const Pillar = ({
     }
   };
 
+  const changeHandler = (e) => {
+    setNewValue(e.target.value);
+  };
+  const addNewCardHandler = () => {
+    if (newValue) {
+      dispatch(addItem(shortid.generate(), item.id, newValue));
+      setNewValue("");
+    } else {
+      alert("ERRRR");
+    }
+  };
+  const submitHandler = (e, item) => {
+    e.preventDefault();
+    addNewCardHandler();
+  };
+
   return (
     <section
       onDrop={dropHandler}
@@ -88,10 +105,18 @@ const Pillar = ({
         Quantity item{quantityPaymentChangeHandler(index)}
       </p>
       <div className={styles.section_body}>{children}</div>
-      <div className={styles.section_footer}>
+      <form onSubmit={submitHandler} className={styles.section_container__add}>
+        <input
+          type="text"
+          value={newValue}
+          onChange={changeHandler}
+          className={styles.section_container__add__new_value}
+        />
+      </form>
+      <button onClick={addNewCardHandler} className={styles.section_footer}>
         <Add className={styles.section_footer__btn} />
         <p className={styles.section_footer__text}>Add a card</p>
-      </div>
+      </button>
     </section>
   );
 };

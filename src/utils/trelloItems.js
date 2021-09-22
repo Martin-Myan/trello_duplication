@@ -1,19 +1,19 @@
 const trelloItems = [
   {
     id: 1,
-    title: "todo",
+    title: "1 Section",
   },
   {
     id: 2,
-    title: "todo2",
+    title: "2 Section",
   },
   {
     id: 3,
-    title: "todo3",
+    title: "3 Section",
   },
   {
     id: 4,
-    title: "todo4",
+    title: "4 Section",
   },
 ];
 

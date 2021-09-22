@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+// import shortid from "shortid";
 
-import { editLines } from "../../store/actions";
+import { editLines /*, addItem*/ } from "../../store/actions";
 import { Piller, Lines } from "../../components";
 
 import styles from "./RenderPiller.module.scss";
@@ -11,9 +11,9 @@ const RenderPiller = () => {
   const dispatch = useDispatch();
 
   const [currentCard, setCurrentCard] = useState(null);
-  const [isItemDragable, setIsItemDragable] = useState(true);
   const [draggablePiller, setDraggablePiller] = useState(null);
-  const [currentLines, setCurrentLines] = useState(null);
+  const [currentLines, setCurrentLines] = useState();
+  // const [newValue, setNewValue] = useState("");
 
   const columns = useSelector((store) => store.main.columns);
   const lines = useSelector((store) => store.main.lines);
@@ -23,20 +23,21 @@ const RenderPiller = () => {
   };
 
   const dragStartHandler = (e, el) => {
-    console.log(e, el, "dragStartHandler");
     setDraggablePiller(el.columnId);
+    console.log(el);
   };
+
   const dropHandler = (e, el) => {
-    console.log(e, el, "dropHandler");
     e.preventDefault();
     setCurrentLines(el.columnId);
   };
+
   const dragOverHandler = (e) => {
-    // console.log(e, "dragOverHandler");
     e.preventDefault();
   };
-  const dragEndHandler = (e, el) => {
-    console.log(e, el, "dragEndHandler");
+
+  const dragEndHandler = (e, el, item) => {
+    setCurrentLines(item.id);
     setDraggablePiller(null);
     dispatch(editLines(el.id, currentLines));
   };
@@ -59,11 +60,10 @@ const RenderPiller = () => {
             <Lines
               key={el.id}
               text={el.description}
-              draggable={isItemDragable}
               onDrop={(e) => dropHandler(e, el)}
-              onDragStart={(e) => dragStartHandler(e, el)}
               onDragOver={(e) => dragOverHandler(e, el)}
-              onDragEnd={(e) => dragEndHandler(e, el)}
+              onDragStart={(e) => dragStartHandler(e, el)}
+              onDragEnd={(e) => dragEndHandler(e, el, item)}
             />
           ))}
       </Piller>

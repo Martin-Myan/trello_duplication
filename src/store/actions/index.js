@@ -16,9 +16,9 @@ export const setColumns = (columns) => ({
   payload: columns,
 });
 
-export const addItem = (item) => ({
+export const addItem = (id, columnId, description) => ({
   type: ADD_ITEM,
-  payload: item,
+  payload: { id, columnId, description },
 });
 
 export const addColumn = (column) => ({
