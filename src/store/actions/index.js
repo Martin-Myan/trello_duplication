@@ -26,7 +26,7 @@ export const addColumn = (column) => ({
   payload: column,
 });
 
-export const editLines = (linesId, pillerId) => ({
+export const editLines = (itemId, pillerId) => ({
   type: EDIT_LINES,
-  payload: { linesId, pillerId },
+  payload: { itemId, pillerId },
 });

@@ -1,4 +1,5 @@
-import shortid from "shortid";
+import { trelloItems, tasckItem } from "../../utils";
+
 import {
   SET_ITEMS,
   ADD_ITEM,
@@ -8,98 +9,8 @@ import {
 } from "../actions/actionTypes";
 
 const initialState = {
-  columns: [
-    {
-      id: 1,
-      title: "todo",
-    },
-    {
-      id: 2,
-      title: "todo2",
-    },
-    {
-      id: 3,
-      title: "todo3",
-    },
-    {
-      id: 4,
-      title: "todo4",
-    },
-  ],
-  lines: [
-    {
-      id: shortid.generate(),
-      columnId: 1,
-      title: "blabla",
-      description: "ahfeakhgfhadv",
-    },
-    {
-      id: shortid.generate(),
-      columnId: 1,
-      title: "Nor Text",
-      description: "Taza inch vor ban",
-    },
-    {
-      id: shortid.generate(),
-      columnId: 1,
-      title: "blabla",
-      description: "ahfeakhgfhadv",
-    },
-    {
-      id: shortid.generate(),
-      columnId: 1,
-      title: "blabla",
-      description: "ahfeakhgfhadv",
-    },
-    {
-      id: shortid.generate(),
-      columnId: 2,
-      title: "blabla",
-      description: "ahfeakhgfhadv",
-    },
-    {
-      id: shortid.generate(),
-      columnId: 1,
-      title: "blabla",
-      description: "ahfeakhgfhadv",
-    },
-    {
-      id: shortid.generate(),
-      columnId: 3,
-      title: "blabla",
-      description: "ahfeakhgfhadv",
-    },
-    {
-      id: shortid.generate(),
-      columnId: 4,
-      title: "blabla",
-      description: "ahfeakhgfhadv",
-    },
-    {
-      id: shortid.generate(),
-      columnId: 4,
-      title: "TITLE",
-      description: "AFGAN",
-    },
-    {
-      id: shortid.generate(),
-      columnId: 3,
-      title: "blabla",
-      description: "AAAAAA",
-    },
-    {
-      id: shortid.generate(),
-      columnId: 4,
-      title: "blabla",
-      description: "ahfeakhgfhadv",
-    },
-    {
-      id: shortid.generate(),
-      columnId: 14,
-      title: "blabla",
-      description: "ahfeakhgfhadv",
-    },
-  ],
+  lines: tasckItem,
+  columns: trelloItems,
 };
 
 const reducers = (state = initialState, { type, payload }) => {
@@ -132,10 +43,18 @@ const reducers = (state = initialState, { type, payload }) => {
       };
     }
     case EDIT_LINES: {
-      const filter = 0;
+      const { itemId, pillerId } = payload;
+      const filterLines = state.lines.find((el) => el.id === itemId);
+
+      const newLines = { ...filterLines, columnId: pillerId };
+
+      const filterLinesList = state.lines.map((item) =>
+        item.id === itemId ? newLines : item
+      );
 
       return {
         ...state,
+        lines: filterLinesList,
       };
     }
     default:

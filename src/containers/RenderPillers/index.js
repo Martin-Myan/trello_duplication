@@ -13,6 +13,7 @@ const RenderPiller = () => {
   const [currentCard, setCurrentCard] = useState(null);
   const [isItemDragable, setIsItemDragable] = useState(true);
   const [draggablePiller, setDraggablePiller] = useState(null);
+  const [currentLines, setCurrentLines] = useState(null);
 
   const columns = useSelector((store) => store.main.columns);
   const lines = useSelector((store) => store.main.lines);
@@ -31,14 +32,12 @@ const RenderPiller = () => {
 
   const dropChildHandler = (e, el) => {
     e.preventDefault();
-    dispatch(editLines(el.columnId, ""));
-    console.log(el.columnId, "el.columnId,");
+    setCurrentLines(el.columnId);
   };
 
   const dragChildEndHandler = (e, el) => {
     setDraggablePiller(null);
-    dispatch(editLines("", el.id));
-    console.log(el.id, "el.id");
+    dispatch(editLines(el.id, currentLines));
   };
 
   const renderItemsToPuller = columns.map((item, index) => {
