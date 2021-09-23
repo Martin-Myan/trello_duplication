@@ -6,6 +6,7 @@ import {
   ADD_COLUMN,
   EDIT_LINES,
   SET_COLUMNS,
+  DELETE_ITEM,
   DELETE_COLUMNS,
 } from "../actions/actionTypes";
 
@@ -67,6 +68,12 @@ const reducers = (state = initialState, { type, payload }) => {
       };
     }
 
+    case DELETE_ITEM: {
+      return {
+        ...state,
+        lines: state.lines.filter((item) => item.id !== payload),
+      };
+    }
     default:
       return state;
   }

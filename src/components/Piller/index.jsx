@@ -98,10 +98,6 @@ const Pillar = ({
     addNewCardHandler();
   };
 
-  // const canncleHandler = () => {
-  //   setIsOpen(false);
-  // };
-
   const delteHandler = () => {
     if (isOpen) {
       dispatch(deleteColumns(item.id));

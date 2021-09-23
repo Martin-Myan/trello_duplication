@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import shortid from "shortid";
 
 import { Piller, Lines } from "../../components";
 import { editLines, addColumn } from "../../store/actions";
@@ -18,7 +19,7 @@ const ColumnsWithTasks = () => {
   const lines = useSelector((store) => store.main.lines);
 
   const addPiller = () => {
-    dispatch(addColumn(columns.length + 1, columns.length + 1 + " Section"));
+    dispatch(addColumn(shortid.generate(), columns.length + 1 + " Section"));
   };
 
   const editCurrentCardHandler = (card) => {
@@ -53,10 +54,11 @@ const ColumnsWithTasks = () => {
         editCurrentCard={editCurrentCardHandler}
       >
         {lines
-          .filter((el) => el?.columnId === item.id)
+          .filter((element) => element?.columnId === item.id)
           .map((el) => {
             return (
               <Lines
+                el={el}
                 key={el.id}
                 // dragableClick
                 text={el.description}
