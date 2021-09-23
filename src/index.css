@@ -81,16 +81,19 @@ figcaption {
   font-size: 100%;
   font-family: "Open Sans", sans-serif;
 }
+
 body {
   min-height: 100vh;
   background-repeat: no-repeat;
   background-size: cover;
   background-image: url(./images/sa_pixar_virtualbg_coco_16x9_9ccd7110.jpeg);
 }
+
 table {
   border-spacing: 0;
   border-collapse: collapse;
 }
+
 input {
   box-shadow: none;
   -o-box-shadow: none;
@@ -98,22 +101,26 @@ input {
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
 }
+
 input::-webkit-inner-spin-button,
 input::-webkit-outer-spin-button {
   margin: 0;
   -webkit-appearance: none;
 }
+
 button,
 a {
   cursor: pointer;
   display: inline-block;
 }
+
 img {
   max-width: 100%;
   display: inline-block;
   vertical-align: middle;
   vertical-align: baseline;
 }
+
 * {
   border: 0;
   margin: 0;
@@ -127,16 +134,4 @@ img {
   box-sizing: border-box;
   background-size: cover;
   -webkit-box-sizing: border-box;
-}
-.container {
-  max-width: 1392px;
-  margin: 0 auto 144px;
-}
-.d_flex {
-  display: flex;
-}
-.justify__between {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }

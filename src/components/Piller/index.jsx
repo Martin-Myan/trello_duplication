@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import shortid from "shortid";
 
+import { noop } from "../../utils";
 // import { useOutsideClick } from "../../hooks";
 import { setColumns, addItem, deleteColumns } from "../../store/actions";
 
@@ -10,7 +11,6 @@ import { ReactComponent as Add } from "../../icons/add.svg";
 import { ReactComponent as Delete } from "../../icons/delete.svg";
 
 import styles from "./Pillar.module.scss";
-import { noop } from "@babel/types";
 
 const Pillar = ({
   item,
@@ -26,10 +26,10 @@ const Pillar = ({
   const { title, id } = item;
   const dispatch = useDispatch();
 
+  const [isOpen, setIsOpen] = useState(false);
   const [newValue, setNewValue] = useState("");
   const [isDragable, setIsDragable] = useState(true);
   const [draggingFunctionalItem, setDraggingFunctionalItem] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
 
   // const outSide = useOutsideClick();
 

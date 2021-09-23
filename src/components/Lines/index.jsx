@@ -21,17 +21,17 @@ const Lines = ({ el, text, onDrop, onDragEnd, onDragStart, dragableClick }) => {
 
   return (
     <div
+      draggable
       onDrop={onDrop}
-      draggable={true}
       onDragEnd={onDragEnd}
       onClick={dragableClick}
       className={styles.lines}
       onDragStart={onDragStart}
-      onDragOver={(e) => dragOverHandler(e)}
+      onDragOver={dragOverHandler}
     >
       <p className={styles.lines__text}>{text}</p>
       <Delete
-        type="submit"
+        role="button"
         onClick={deleteHandler}
         className={styles.lines__delete}
       />
