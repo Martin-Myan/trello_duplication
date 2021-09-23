@@ -49,6 +49,7 @@
   display: flex;
   margin: 0 auto;
   padding: 7px 5px;
+  position: relative;
   justify-content: space-between;
 
   &__title {
@@ -63,6 +64,39 @@
     height: 25px;
     cursor: pointer;
     max-width: 30px;
+  }
+
+  &__dropDown {
+    z-index: 1;
+    right: 5px;
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    border-radius: 5px;
+    height: 62px;
+    background-color: white;
+    border: 5px solid red;
+    box-shadow: -9px 38px 46px 50px rgba(60, 159, 123, 0.58);
+    -webkit-box-shadow: -9px 38px 46px 50px rgba(60, 159, 123, 0.58);
+
+    &_yes {
+      background-color: #b20000;
+      padding: 5px 8px;
+      font-weight: bolder;
+
+      &:hover {
+        background-color: red;
+      }
+    }
+    &_cancle {
+      background-color: #049198;
+      padding: 5px 8px;
+      font-weight: bolder;
+
+      &:hover {
+        background-color: #00efd1;
+      }
+    }
   }
 }
 

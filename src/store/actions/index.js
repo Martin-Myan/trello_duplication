@@ -1,9 +1,10 @@
 import {
-  SET_ITEMS,
   ADD_ITEM,
+  SET_ITEMS,
   ADD_COLUMN,
-  SET_COLUMNS,
   EDIT_LINES,
+  SET_COLUMNS,
+  DELETE_COLUMNS,
 } from "./actionTypes";
 
 export const setItems = (items) => ({
@@ -29,4 +30,9 @@ export const addColumn = (id, title) => ({
 export const editLines = (itemId, pillerId) => ({
   type: EDIT_LINES,
   payload: { itemId, pillerId },
+});
+
+export const deleteColumns = (id) => ({
+  type: DELETE_COLUMNS,
+  payload: id,
 });

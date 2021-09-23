@@ -1,4 +1,4 @@
-const trelloItems = [
+const tasckColumns = [
   {
     id: 1,
     title: "1 Section",
@@ -17,4 +17,4 @@ const trelloItems = [
   },
 ];
 
-export default trelloItems;
+export default tasckColumns;

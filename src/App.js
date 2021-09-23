@@ -1,9 +1,9 @@
 import React from "react";
 
-import { ReturnPilers } from "./containers";
+import { ColumnsWithTasks } from "./containers";
 
 const App = () => {
-  return <ReturnPilers />;
+  return <ColumnsWithTasks />;
 };
 
 export default App;

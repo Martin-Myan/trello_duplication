@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-// import shortid from "shortid";
 
 import { Piller, Lines } from "../../components";
 import { editLines, addColumn } from "../../store/actions";
 import { ReactComponent as Add } from "../../icons/add.svg";
-import styles from "./RenderPiller.module.scss";
 
-const RenderPiller = () => {
+import styles from "./ColumnsWithTasks.module.scss";
+
+const ColumnsWithTasks = () => {
   const dispatch = useDispatch();
 
   const [currentCard, setCurrentCard] = useState(null);
@@ -34,10 +34,6 @@ const RenderPiller = () => {
     setCurrentLines(el.columnId);
   };
 
-  const dragOverHandler = (e) => {
-    e.preventDefault();
-  };
-
   const dragEndHandler = (e, el, item) => {
     setCurrentLines(item.id);
     setDraggablePiller(null);
@@ -62,9 +58,9 @@ const RenderPiller = () => {
             return (
               <Lines
                 key={el.id}
+                // dragableClick
                 text={el.description}
                 onDrop={(e) => dropHandler(e, el)}
-                onDragOver={(e) => dragOverHandler(e, el)}
                 onDragStart={(e) => dragStartHandler(e, el)}
                 onDragEnd={(e) => dragEndHandler(e, el, item)}
               />
@@ -90,4 +86,4 @@ const RenderPiller = () => {
   );
 };
 
-export default RenderPiller;
+export default ColumnsWithTasks;

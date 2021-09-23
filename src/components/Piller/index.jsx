@@ -4,13 +4,13 @@ import PropTypes from "prop-types";
 import shortid from "shortid";
 
 // import { useOutsideClick } from "../../hooks";
-import { noop } from "../../utils";
-import { setColumns, addItem } from "../../store/actions";
+import { setColumns, addItem, deleteColumns } from "../../store/actions";
 
 import { ReactComponent as Add } from "../../icons/add.svg";
-import { ReactComponent as Ellipsis } from "../../icons/ellipsis.svg";
+import { ReactComponent as Delete } from "../../icons/delete.svg";
 
 import styles from "./Pillar.module.scss";
+import { noop } from "@babel/types";
 
 const Pillar = ({
   item,
@@ -24,11 +24,14 @@ const Pillar = ({
   editCurrentCard,
 }) => {
   const { title, id } = item;
-  // const outSide = useOutsideClick();
   const dispatch = useDispatch();
+
   const [newValue, setNewValue] = useState("");
   const [isDragable, setIsDragable] = useState(true);
   const [draggingFunctionalItem, setDraggingFunctionalItem] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+  // const outSide = useOutsideClick();
 
   useEffect(() => {
     if (draggablePiller && draggablePiller === currentCard.id) {
@@ -95,8 +98,18 @@ const Pillar = ({
     addNewCardHandler();
   };
 
+  // const canncleHandler = () => {
+  //   setIsOpen(false);
+  // };
+
+  const delteHandler = () => {
+    if (isOpen) {
+      dispatch(deleteColumns(item.id));
+    }
+  };
+
   const pillerSettings = () => {
-    console.log("objectobjectobject");
+    setIsOpen(!isOpen);
   };
 
   return (
@@ -110,11 +123,29 @@ const Pillar = ({
     >
       <div className={styles.head}>
         <h2 className={styles.head__title}>{title}</h2>
-        <Ellipsis
-          type="submit"
-          onClick={pillerSettings}
-          className={styles.head__btn}
-        />
+        <div>
+          <Delete
+            type="submit"
+            onClick={pillerSettings}
+            className={styles.head__btn}
+          />
+          {isOpen ? (
+            <div className={styles.head__dropDown}>
+              <button
+                onClick={delteHandler}
+                className={styles.head__dropDown_yes}
+              >
+                Yes delete
+              </button>
+              <button
+                onClick={pillerSettings}
+                className={styles.head__dropDown_cancle}
+              >
+                Cancle
+              </button>
+            </div>
+          ) : null}
+        </div>
       </div>
       <p className={styles.section_container__quantity}>
         Quantity item{quantityPaymentChangeHandler(index)}
@@ -157,18 +188,26 @@ const Pillar = ({
 };
 
 Pillar.propTypes = {
+  item: PropTypes.object,
+  lines: PropTypes.array,
+  index: PropTypes.number,
+  columns: PropTypes.array,
   children: PropTypes.any,
   draggable: PropTypes.bool,
   isDraging: PropTypes.bool,
-  headTitle: PropTypes.string,
-  add_new_card: PropTypes.func,
+  currentCard: PropTypes.object,
+  editCurrentCard: PropTypes.func,
+  draggablePiller: PropTypes.number,
 };
 
 Pillar.defaultProps = {
+  item: {},
+  lines: [],
+  columns: [],
   isDraging: true,
   draggable: true,
-  add_new_card: noop,
-  headTitle: "Add Pillar title",
+  currentCard: {},
+  editCurrentCard: noop,
 };
 
 export default Pillar;

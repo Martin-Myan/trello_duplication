@@ -5,3 +5,4 @@ export const EDIT_LINES = "EDIT_LINES";
 export const SET_COLUMNS = "SET_COLUMNS";
 export const CHANGE_ITEM = "CHANGE_ITEM";
 export const CHANGE_COLUMN = "CHANGE_COLUMN";
+export const DELETE_COLUMNS = "DELETE_COLUMNS";

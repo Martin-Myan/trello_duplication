@@ -1,4 +1,4 @@
-import { trelloItems, tasckItem } from "../../utils";
+import { tasckColumns, tasckItem } from "../../utils";
 
 import {
   SET_ITEMS,
@@ -6,11 +6,12 @@ import {
   ADD_COLUMN,
   EDIT_LINES,
   SET_COLUMNS,
+  DELETE_COLUMNS,
 } from "../actions/actionTypes";
 
 const initialState = {
   lines: tasckItem,
-  columns: trelloItems,
+  columns: tasckColumns,
 };
 
 const reducers = (state = initialState, { type, payload }) => {
@@ -56,6 +57,13 @@ const reducers = (state = initialState, { type, payload }) => {
       return {
         ...state,
         lines: filterLinesList,
+      };
+    }
+
+    case DELETE_COLUMNS: {
+      return {
+        ...state,
+        columns: state.columns.filter((item) => item.id !== payload),
       };
     }
 
