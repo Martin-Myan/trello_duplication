@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 // import shortid from "shortid";
 
-import { editLines /*, addItem*/ } from "../../store/actions";
 import { Piller, Lines } from "../../components";
-
+import { editLines, addColumn } from "../../store/actions";
+import { ReactComponent as Add } from "../../icons/add.svg";
 import styles from "./RenderPiller.module.scss";
 
 const RenderPiller = () => {
@@ -13,10 +13,13 @@ const RenderPiller = () => {
   const [currentCard, setCurrentCard] = useState(null);
   const [draggablePiller, setDraggablePiller] = useState(null);
   const [currentLines, setCurrentLines] = useState();
-  // const [newValue, setNewValue] = useState("");
 
   const columns = useSelector((store) => store.main.columns);
   const lines = useSelector((store) => store.main.lines);
+
+  const addPiller = () => {
+    dispatch(addColumn(columns.length + 1, columns.length + 1 + " Section"));
+  };
 
   const editCurrentCardHandler = (card) => {
     setCurrentCard(card);
@@ -24,7 +27,6 @@ const RenderPiller = () => {
 
   const dragStartHandler = (e, el) => {
     setDraggablePiller(el.columnId);
-    console.log(el);
   };
 
   const dropHandler = (e, el) => {
@@ -56,21 +58,36 @@ const RenderPiller = () => {
       >
         {lines
           .filter((el) => el?.columnId === item.id)
-          .map((el) => (
-            <Lines
-              key={el.id}
-              text={el.description}
-              onDrop={(e) => dropHandler(e, el)}
-              onDragOver={(e) => dragOverHandler(e, el)}
-              onDragStart={(e) => dragStartHandler(e, el)}
-              onDragEnd={(e) => dragEndHandler(e, el, item)}
-            />
-          ))}
+          .map((el) => {
+            return (
+              <Lines
+                key={el.id}
+                text={el.description}
+                onDrop={(e) => dropHandler(e, el)}
+                onDragOver={(e) => dragOverHandler(e, el)}
+                onDragStart={(e) => dragStartHandler(e, el)}
+                onDragEnd={(e) => dragEndHandler(e, el, item)}
+              />
+            );
+          })}
       </Piller>
     );
   });
 
-  return <div className={styles.piller_container}>{renderItemsToPuller}</div>;
+  return (
+    <div className={styles.piller_container}>
+      {renderItemsToPuller}
+      <button
+        onClick={addPiller}
+        className={styles.piller_container__add_piller}
+      >
+        <Add className={styles.piller_container__add_piller__icon} />
+        <p className={styles.piller_container__add_piller__text}>
+          Add another list
+        </p>
+      </button>
+    </div>
+  );
 };
 
 export default RenderPiller;

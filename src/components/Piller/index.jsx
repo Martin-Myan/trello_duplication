@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import shortid from "shortid";
 
+// import { useOutsideClick } from "../../hooks";
 import { noop } from "../../utils";
 import { setColumns, addItem } from "../../store/actions";
 
@@ -18,13 +19,16 @@ const Pillar = ({
   columns,
   children,
   currentCard,
+  // pillerSettings,
   draggablePiller,
   editCurrentCard,
 }) => {
   const { title, id } = item;
+  // const outSide = useOutsideClick();
   const dispatch = useDispatch();
   const [newValue, setNewValue] = useState("");
   const [isDragable, setIsDragable] = useState(true);
+  const [draggingFunctionalItem, setDraggingFunctionalItem] = useState(false);
 
   useEffect(() => {
     if (draggablePiller && draggablePiller === currentCard.id) {
@@ -75,17 +79,24 @@ const Pillar = ({
   const changeHandler = (e) => {
     setNewValue(e.target.value);
   };
+
   const addNewCardHandler = () => {
-    if (newValue) {
-      dispatch(addItem(shortid.generate(), item.id, newValue));
-      setNewValue("");
-    } else {
-      alert("ERRRR");
+    setDraggingFunctionalItem(!draggingFunctionalItem);
+    if (draggingFunctionalItem) {
+      if (newValue) {
+        dispatch(addItem(shortid.generate(), item.id, newValue));
+        setNewValue("");
+      }
     }
   };
-  const submitHandler = (e, item) => {
+
+  const submitHandler = (e) => {
     e.preventDefault();
     addNewCardHandler();
+  };
+
+  const pillerSettings = () => {
+    console.log("objectobjectobject");
   };
 
   return (
@@ -99,23 +110,47 @@ const Pillar = ({
     >
       <div className={styles.head}>
         <h2 className={styles.head__title}>{title}</h2>
-        <Ellipsis type="submit" className={styles.head__btn} />
+        <Ellipsis
+          type="submit"
+          onClick={pillerSettings}
+          className={styles.head__btn}
+        />
       </div>
       <p className={styles.section_container__quantity}>
         Quantity item{quantityPaymentChangeHandler(index)}
       </p>
-      <div className={styles.section_body}>{children}</div>
-      <form onSubmit={submitHandler} className={styles.section_container__add}>
-        <input
-          type="text"
-          value={newValue}
-          onChange={changeHandler}
-          className={styles.section_container__add__new_value}
-        />
-      </form>
+      <div
+        className={styles.section_body}
+        style={
+          draggingFunctionalItem
+            ? { marginBottom: "16px", maxHeight: "69vh" }
+            : null
+        }
+      >
+        {children}
+      </div>
+      {draggingFunctionalItem ? (
+        <form
+          // ref={outSide}
+          onSubmit={submitHandler}
+          className={styles.section_container__add}
+        >
+          <input
+            type="text"
+            value={newValue}
+            onChange={changeHandler}
+            placeholder="Enter a title for this card…"
+            className={styles.section_container__add__new_value}
+          />
+        </form>
+      ) : null}
       <button onClick={addNewCardHandler} className={styles.section_footer}>
-        <Add className={styles.section_footer__btn} />
-        <p className={styles.section_footer__text}>Add a card</p>
+        {draggingFunctionalItem ? null : (
+          <Add className={styles.section_footer__btn} />
+        )}
+        <p className={styles.section_footer__text}>
+          {draggingFunctionalItem ? "Closing added component" : "Add a card"}
+        </p>
       </button>
     </section>
   );

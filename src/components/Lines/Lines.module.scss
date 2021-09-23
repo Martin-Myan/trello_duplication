@@ -1,10 +1,12 @@
 .lines {
-  width: 98%;
+  width: 100%;
   padding: 8px 11px;
   border-radius: 5px;
   margin-bottom: 15px;
-  border: 8px solid grey;
   background-color: #1c1d20;
+  border-top: 12px solid grey;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 
   &:last-child {
     margin-bottom: 0px;

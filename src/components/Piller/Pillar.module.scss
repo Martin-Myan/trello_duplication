@@ -32,6 +32,14 @@
       height: 100%;
       padding: 5px;
       font-size: 28px;
+      border-radius: 15px;
+      background-color: rgba(46, 138, 138, 0.5);
+
+      &::-webkit-input-placeholder {
+        color: white;
+        font-size: 20px;
+        font-weight: 500;
+      }
     }
   }
 }
@@ -47,7 +55,7 @@
     width: 80%;
     font-size: 20px;
     line-height: 24px;
-    color: orangered;
+    color: ghostwhite;
   }
 
   &__btn {
@@ -63,18 +71,20 @@
   display: flex;
   max-width: 95%;
   overflow-x: auto;
-  max-height: 69vh;
-  margin: 0 auto 35px;
+  max-height: 78vh;
+  position: relative;
+  margin: 0 auto 30px;
   border-radius: 10px;
+  flex-direction: column;
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
-  flex-direction: column;
   box-shadow: 0 2px 5px 5px #111, inset 0 0 4px black;
 
   &::-webkit-scrollbar {
     width: 6px;
     height: 7px;
     height: 50px;
+    position: absolute;
   }
   &::-webkit-scrollbar-track {
     background: #444;
@@ -94,10 +104,11 @@
   bottom: 8px;
   display: flex;
   margin: 0 auto;
-  max-width: 43%;
+  max-width: 92%;
   cursor: pointer;
   position: absolute;
   align-items: center;
+  justify-content: center;
   background-color: transparent;
 
   &__btn {
@@ -111,5 +122,6 @@
     color: azure;
     font-size: 16px;
     font-weight: 900;
+    text-align: center;
   }
 }
