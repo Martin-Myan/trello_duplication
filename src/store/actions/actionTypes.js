@@ -1,5 +1,6 @@
 export const ADD_ITEM = "ADD_ITEM";
 export const SET_ITEMS = "SET_ITEMS";
+export const EDIT_ITEM = "EDIT_ITEM";
 export const ADD_COLUMN = "ADD_COLUMN";
 export const EDIT_LINES = "EDIT_LINES";
 export const SET_COLUMNS = "SET_COLUMNS";

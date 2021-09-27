@@ -1,6 +1,7 @@
 import {
   ADD_ITEM,
   SET_ITEMS,
+  EDIT_ITEM,
   ADD_COLUMN,
   EDIT_LINES,
   SET_COLUMNS,
@@ -26,6 +27,11 @@ export const addItem = (id, columnId, description) => ({
 export const addColumn = (id, title) => ({
   type: ADD_COLUMN,
   payload: { id, title },
+});
+
+export const editItem = (value, id) => ({
+  type: EDIT_ITEM,
+  payload: { value, id },
 });
 
 export const editLines = (itemId, pillerId) => ({

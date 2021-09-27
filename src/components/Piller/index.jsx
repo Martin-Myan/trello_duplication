@@ -9,6 +9,7 @@ import { setColumns, addItem, deleteColumns } from "../../store/actions";
 
 import { ReactComponent as Add } from "../../icons/add.svg";
 import { ReactComponent as Delete } from "../../icons/delete.svg";
+import { ReactComponent as EditPillerTitle } from "../../icons/edit_piller_title.svg";
 
 import styles from "./Pillar.module.scss";
 
@@ -86,8 +87,10 @@ const Pillar = ({
   const addNewCardHandler = () => {
     setDraggingFunctionalItem(!draggingFunctionalItem);
     if (draggingFunctionalItem) {
-      if (newValue) {
+      if (newValue.trim()) {
         dispatch(addItem(shortid.generate(), item.id, newValue));
+        setNewValue("");
+      } else if (newValue.trim() === "") {
         setNewValue("");
       }
     }
@@ -97,6 +100,8 @@ const Pillar = ({
     e.preventDefault();
     addNewCardHandler();
   };
+
+  console.log(item.id, "item.columnIditem.columnId");
 
   const delteHandler = () => {
     if (isOpen) {
@@ -120,26 +125,40 @@ const Pillar = ({
       <div className={styles.head}>
         <h2 className={styles.head__title}>{title}</h2>
         <div>
-          <Delete
-            type="submit"
+          <button
             onClick={pillerSettings}
-            className={styles.head__btn}
-          />
+            className={styles.head__piller_setting}
+          >
+            • • •
+          </button>
           {isOpen ? (
-            <div className={styles.head__dropDown}>
-              <button
+            <>
+              <Delete
+                role="button"
                 onClick={delteHandler}
-                className={styles.head__dropDown_yes}
-              >
-                Yes delete
-              </button>
-              <button
+                className={styles.head__btn}
+              />
+              <EditPillerTitle
+                role="button"
                 onClick={pillerSettings}
-                className={styles.head__dropDown_cancle}
-              >
-                Cancle
-              </button>
-            </div>
+                className={styles.head__edit_btn}
+              />
+
+              {/* <div className={styles.head__dropDown}>
+                <button
+                  onClick={delteHandler}
+                  className={styles.head__dropDown_yes}
+                >
+                  Yes delete
+                </button>
+                <button
+                  onClick={pillerSettings}
+                  className={styles.head__dropDown_cancle}
+                >
+                  Cancle
+                </button>
+              </div> */}
+            </>
           ) : null}
         </div>
       </div>
@@ -193,7 +212,7 @@ Pillar.propTypes = {
   isDraging: PropTypes.bool,
   currentCard: PropTypes.object,
   editCurrentCard: PropTypes.func,
-  draggablePiller: PropTypes.number,
+  draggablePiller: PropTypes.any,
 };
 
 Pillar.defaultProps = {

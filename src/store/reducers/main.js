@@ -1,8 +1,9 @@
 import { tasckColumns, tasckItem } from "../../utils";
 
 import {
-  SET_ITEMS,
   ADD_ITEM,
+  SET_ITEMS,
+  EDIT_ITEM,
   ADD_COLUMN,
   EDIT_LINES,
   SET_COLUMNS,
@@ -62,9 +63,18 @@ const reducers = (state = initialState, { type, payload }) => {
     }
 
     case DELETE_COLUMNS: {
+      const filterLinesList = state.lines.filter(
+        (item) => item.columnId !== payload
+      );
+
+      const filterColumsList = state.columns.filter(
+        (item) => item.id !== payload
+      );
+
       return {
         ...state,
-        columns: state.columns.filter((item) => item.id !== payload),
+        columns: filterColumsList,
+        lines: filterLinesList,
       };
     }
 
@@ -74,6 +84,18 @@ const reducers = (state = initialState, { type, payload }) => {
         lines: state.lines.filter((item) => item.id !== payload),
       };
     }
+
+    case EDIT_ITEM:
+      console.log(payload);
+      return {
+        ...state,
+        lines: state.lines.map((item) => {
+          if (item.id === payload.id) {
+            return { ...item, description: payload.value };
+          }
+          return item;
+        }),
+      };
     default:
       return state;
   }

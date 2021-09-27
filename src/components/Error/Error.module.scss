@@ -1,0 +1,47 @@
+@import "../../styles/vars.scss";
+
+.wrapper_error {
+  @extend %flex-center;
+  flex-direction: column;
+
+  &__title {
+    user-select: none;
+    color: $white;
+    font-size: 200px;
+
+    @media screen and (max-width: 576px) {
+      text-align: center;
+      font-size: 150px;
+    }
+  }
+
+  &__text {
+    user-select: none;
+    color: $white;
+    margin: 16px 0;
+    font-size: 32px;
+
+    @media screen and (max-width: 576px) {
+      text-align: center;
+    }
+  }
+
+  &__link {
+    @extend %flex-center;
+    text-decoration: none;
+    display: block;
+    width: 100px;
+    font-weight: 600;
+    background: $add-item-bg;
+    border-radius: 4px;
+    padding: 8px 0;
+    text-align: center;
+    margin: 8px;
+    color: black;
+
+    &:hover {
+      background: $button-hover;
+      color: $white;
+    }
+  }
+}

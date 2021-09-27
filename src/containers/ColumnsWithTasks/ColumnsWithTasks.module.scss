@@ -1,5 +1,6 @@
 .piller_container {
   width: 100%;
+  height: 100vh;
   display: flex;
   max-width: 100%;
   overflow-x: auto;
@@ -10,25 +11,55 @@
     display: none;
   }
 
-  &__add_piller {
+  &__frm {
     width: 100%;
     height: 35px;
     display: flex;
-    padding: 5px 8px;
-    min-width: 158px;
-    border-radius: 5px;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.78);
+    min-width: 272px;
+    position: relative;
+    justify-content: space-between;
 
-    &__icon {
-      width: 25px;
-      height: 25px;
-      margin-right: 15px;
+    &__inp {
+      width: 100%;
+      font-size: 20px;
+      line-height: 24px;
+      padding: 5px 10px;
+      border-radius: 5px;
+      color: ghostwhite;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      background-color: rgba(0, 0, 0, 0.78);
     }
 
-    &__text {
+    &__btn {
       color: white;
-      font-weight: bolder;
+      padding: 0 5px;
+      font-size: 20px;
+      border-top-right-radius: 5px;
+      border-bottom-right-radius: 5px;
+      background-color: rgba(15, 50, 80, 0.83);
+    }
+
+    &__add_piller {
+      width: 100%;
+      height: 35px;
+      display: flex;
+      padding: 5px 8px;
+      min-width: 272px;
+      border-radius: 5px;
+      align-items: center;
+      background-color: rgba(0, 0, 0, 0.78);
+
+      &__icon {
+        width: 25px;
+        height: 25px;
+        margin-right: 15px;
+      }
+
+      &__text {
+        color: white;
+        font-weight: bolder;
+      }
     }
   }
 }

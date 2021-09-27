@@ -11,15 +11,26 @@ import styles from "./ColumnsWithTasks.module.scss";
 const ColumnsWithTasks = () => {
   const dispatch = useDispatch();
 
+  const [addTitle, setAddTitle] = useState("");
   const [currentCard, setCurrentCard] = useState(null);
+  const [currentLines, setCurrentLines] = useState("");
   const [draggablePiller, setDraggablePiller] = useState(null);
-  const [currentLines, setCurrentLines] = useState();
+  const [addTitlePosition, setAddTitlePosition] = useState(false);
 
   const columns = useSelector((store) => store.main.columns);
   const lines = useSelector((store) => store.main.lines);
 
+  const changeHandler = (e) => {
+    setAddTitle(e.target.value);
+  };
+
   const addPiller = () => {
-    dispatch(addColumn(shortid.generate(), columns.length + 1 + " Section"));
+    setAddTitlePosition(!addTitlePosition);
+
+    if (addTitle.trim()) {
+      dispatch(addColumn(shortid.generate(), addTitle));
+      setAddTitle("");
+    }
   };
 
   const editCurrentCardHandler = (card) => {
@@ -37,15 +48,15 @@ const ColumnsWithTasks = () => {
 
   const dragEndHandler = (e, el, item) => {
     setCurrentLines(item.id);
-    setDraggablePiller(null);
+    setDraggablePiller(el.id);
     dispatch(editLines(el.id, currentLines));
   };
 
   const renderItemsToPuller = columns.map((item, index) => {
     return (
       <Piller
-        key={item.id}
         item={item}
+        key={item.id}
         index={index}
         lines={lines}
         columns={columns}
@@ -75,15 +86,38 @@ const ColumnsWithTasks = () => {
   return (
     <div className={styles.piller_container}>
       {renderItemsToPuller}
-      <button
-        onClick={addPiller}
-        className={styles.piller_container__add_piller}
+
+      <form
+        onSubmit={(e) => e.preventDefault()}
+        className={styles.piller_container__frm}
       >
-        <Add className={styles.piller_container__add_piller__icon} />
-        <p className={styles.piller_container__add_piller__text}>
-          Add another list
-        </p>
-      </button>
+        {addTitlePosition ? (
+          <>
+            <input
+              value={addTitle}
+              onChange={changeHandler}
+              placeholder="Enter list title ..."
+              className={styles.piller_container__frm__inp}
+            />
+            <button
+              onClick={addPiller}
+              className={styles.piller_container__frm__btn}
+            >
+              Save
+            </button>
+          </>
+        ) : (
+          <button
+            onClick={addPiller}
+            className={styles.piller_container__frm__add_piller}
+          >
+            <Add className={styles.piller_container__frm__add_piller__icon} />
+            <p className={styles.piller_container__frm__add_piller__text}>
+              Add another list
+            </p>
+          </button>
+        )}
+      </form>
     </div>
   );
 };

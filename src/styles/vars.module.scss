@@ -1,0 +1,56 @@
+// text font-size
+
+$heading1: 48px;
+$heading2: 34px;
+$heading3: 24px;
+$intro-text: 20px;
+$body-text: 16px;
+$caption-text: 14px;
+$micro-text: 12px;
+
+/////  color  //////
+
+$content-bg: #33363d;
+$item-bg: #191a1d;
+$list-content-bg: #2b2d33;
+$white: white;
+$add-item-bg: #606164;
+$button-hover: #27272d;
+$danger-1: #ff7875;
+$danger-2: #ff4d4f;
+$secondary-1: #595959;
+$ease-out: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+
+/// shablon ///
+
+%flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+%flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+%flex-align {
+  display: flex;
+  align-items: center;
+}
+
+//// mixin ////
+
+@mixin input($borderColor) {
+  @extend %flex-between;
+  border: 1px solid $borderColor;
+  max-width: 350px;
+  width: 100%;
+  position: relative;
+  height: 42px;
+  background: $white;
+  padding: 0 40px 0 10px;
+  margin: 8px 0;
+  border-radius: 4px;
+}
