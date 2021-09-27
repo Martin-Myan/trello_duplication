@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import shortid from "shortid";
 
 import { Piller, Lines } from "../../components";
-import { editLines, addColumn } from "../../store/actions";
+import { editLines, addPiller } from "../../store/actions";
 import { ReactComponent as Add } from "../../icons/add.svg";
 
 import styles from "./ColumnsWithTasks.module.scss";
@@ -17,18 +17,18 @@ const ColumnsWithTasks = () => {
   const [draggablePiller, setDraggablePiller] = useState(null);
   const [addTitlePosition, setAddTitlePosition] = useState(false);
 
-  const columns = useSelector((store) => store.main.columns);
+  const piller = useSelector((store) => store.main.piller);
   const lines = useSelector((store) => store.main.lines);
 
   const changeHandler = (e) => {
     setAddTitle(e.target.value);
   };
 
-  const addPiller = () => {
+  const addPillerHandler = () => {
     setAddTitlePosition(!addTitlePosition);
 
     if (addTitle.trim()) {
-      dispatch(addColumn(shortid.generate(), addTitle));
+      dispatch(addPiller(shortid.generate(), addTitle));
       setAddTitle("");
     }
   };
@@ -52,14 +52,14 @@ const ColumnsWithTasks = () => {
     dispatch(editLines(el.id, currentLines));
   };
 
-  const renderItemsToPuller = columns.map((item, index) => {
+  const renderItemsToPuller = piller.map((item, index) => {
     return (
       <Piller
         item={item}
         key={item.id}
         index={index}
         lines={lines}
-        columns={columns}
+        piller={piller}
         currentCard={currentCard}
         draggablePiller={draggablePiller}
         editCurrentCard={editCurrentCardHandler}
@@ -100,7 +100,7 @@ const ColumnsWithTasks = () => {
               className={styles.piller_container__frm__inp}
             />
             <button
-              onClick={addPiller}
+              onClick={addPillerHandler}
               className={styles.piller_container__frm__btn}
             >
               Save
@@ -108,7 +108,7 @@ const ColumnsWithTasks = () => {
           </>
         ) : (
           <button
-            onClick={addPiller}
+            onClick={addPillerHandler}
             className={styles.piller_container__frm__add_piller}
           >
             <Add className={styles.piller_container__frm__add_piller__icon} />

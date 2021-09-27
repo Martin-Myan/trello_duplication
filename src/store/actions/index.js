@@ -2,11 +2,11 @@ import {
   ADD_ITEM,
   SET_ITEMS,
   EDIT_ITEM,
-  ADD_COLUMN,
+  ADD_PILLER,
   EDIT_LINES,
-  SET_COLUMNS,
+  SET_PILLER,
   DELETE_ITEM,
-  DELETE_COLUMNS,
+  DELETE_PILLER,
 } from "./actionTypes";
 
 export const setItems = (items) => ({
@@ -14,9 +14,9 @@ export const setItems = (items) => ({
   payload: items,
 });
 
-export const setColumns = (columns) => ({
-  type: SET_COLUMNS,
-  payload: columns,
+export const setPiller = (piller) => ({
+  type: SET_PILLER,
+  payload: piller,
 });
 
 export const addItem = (id, columnId, description) => ({
@@ -24,8 +24,8 @@ export const addItem = (id, columnId, description) => ({
   payload: { id, columnId, description },
 });
 
-export const addColumn = (id, title) => ({
-  type: ADD_COLUMN,
+export const addPiller = (id, title) => ({
+  type: ADD_PILLER,
   payload: { id, title },
 });
 
@@ -39,8 +39,8 @@ export const editLines = (itemId, pillerId) => ({
   payload: { itemId, pillerId },
 });
 
-export const deleteColumns = (id) => ({
-  type: DELETE_COLUMNS,
+export const deletePiller = (id) => ({
+  type: DELETE_PILLER,
   payload: id,
 });
 

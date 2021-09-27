@@ -1,19 +1,19 @@
-import { tasckColumns, tasckItem } from "../../utils";
+import { tasckPiller, tasckItem } from "../../utils";
 
 import {
   ADD_ITEM,
   SET_ITEMS,
   EDIT_ITEM,
-  ADD_COLUMN,
+  ADD_PILLER,
   EDIT_LINES,
-  SET_COLUMNS,
+  SET_PILLER,
   DELETE_ITEM,
-  DELETE_COLUMNS,
+  DELETE_PILLER,
 } from "../actions/actionTypes";
 
 const initialState = {
   lines: tasckItem,
-  columns: tasckColumns,
+  piller: tasckPiller,
 };
 
 const reducers = (state = initialState, { type, payload }) => {
@@ -25,10 +25,10 @@ const reducers = (state = initialState, { type, payload }) => {
       };
     }
 
-    case SET_COLUMNS: {
+    case SET_PILLER: {
       return {
         ...state,
-        columns: payload,
+        piller: payload,
       };
     }
 
@@ -39,10 +39,10 @@ const reducers = (state = initialState, { type, payload }) => {
       };
     }
 
-    case ADD_COLUMN: {
+    case ADD_PILLER: {
       return {
         ...state,
-        columns: [...state.columns, payload],
+        piller: [...state.piller, payload],
       };
     }
 
@@ -62,18 +62,18 @@ const reducers = (state = initialState, { type, payload }) => {
       };
     }
 
-    case DELETE_COLUMNS: {
+    case DELETE_PILLER: {
       const filterLinesList = state.lines.filter(
         (item) => item.columnId !== payload
       );
 
-      const filterColumsList = state.columns.filter(
+      const filterColumsList = state.piller.filter(
         (item) => item.id !== payload
       );
 
       return {
         ...state,
-        columns: filterColumsList,
+        piller: filterColumsList,
         lines: filterLinesList,
       };
     }

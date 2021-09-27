@@ -5,7 +5,7 @@ import shortid from "shortid";
 
 import { noop } from "../../utils";
 // import { useOutsideClick } from "../../hooks";
-import { setColumns, addItem, deleteColumns } from "../../store/actions";
+import { setPiller, addItem, deletePiller } from "../../store/actions";
 
 import { ReactComponent as Add } from "../../icons/add.svg";
 import { ReactComponent as Delete } from "../../icons/delete.svg";
@@ -17,7 +17,7 @@ const Pillar = ({
   item,
   lines,
   index,
-  columns,
+  piller,
   children,
   currentCard,
   // pillerSettings,
@@ -57,16 +57,16 @@ const Pillar = ({
   const dropHandler = (e) => {
     e.preventDefault();
     if (isDragable) {
-      const dropIndex = columns.findIndex((el) => el.id === id);
-      const dragIndex = columns.findIndex((el) => el.id === currentCard.id);
+      const dropIndex = piller.findIndex((el) => el.id === id);
+      const dragIndex = piller.findIndex((el) => el.id === currentCard.id);
 
-      const tempArray = [...columns];
+      const tempArray = [...piller];
       tempArray.splice(dropIndex, 0, ...tempArray.splice(dragIndex, 1));
-      dispatch(setColumns(tempArray));
+      dispatch(setPiller(tempArray));
     }
   };
 
-  const quantityPayment = columns?.map((item) => {
+  const quantityPayment = piller?.map((item) => {
     return lines.filter((el) => el?.columnId === item.id).map((el) => el);
   });
 
@@ -105,7 +105,7 @@ const Pillar = ({
 
   const delteHandler = () => {
     if (isOpen) {
-      dispatch(deleteColumns(item.id));
+      dispatch(deletePiller(item.id));
     }
   };
 
@@ -206,7 +206,7 @@ Pillar.propTypes = {
   item: PropTypes.object,
   lines: PropTypes.array,
   index: PropTypes.number,
-  columns: PropTypes.array,
+  piller: PropTypes.array,
   children: PropTypes.any,
   draggable: PropTypes.bool,
   isDraging: PropTypes.bool,
@@ -218,7 +218,7 @@ Pillar.propTypes = {
 Pillar.defaultProps = {
   item: {},
   lines: [],
-  columns: [],
+  piller: [],
   isDraging: true,
   draggable: true,
   currentCard: {},
