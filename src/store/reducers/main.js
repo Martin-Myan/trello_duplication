@@ -86,7 +86,6 @@ const reducers = (state = initialState, { type, payload }) => {
     }
 
     case EDIT_ITEM:
-      console.log(payload);
       return {
         ...state,
         lines: state.lines.map((item) => {

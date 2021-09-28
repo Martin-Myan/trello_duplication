@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import shortid from "shortid";
 
 import { noop } from "../../utils";
-// import { useOutsideClick } from "../../hooks";
+import { useOutsideClick } from "../../hooks";
 import { setPiller, addItem, deletePiller } from "../../store/actions";
 
 import { ReactComponent as Add } from "../../icons/add.svg";
@@ -25,14 +25,22 @@ const Pillar = ({
   editCurrentCard,
 }) => {
   const { title, id } = item;
+
   const dispatch = useDispatch();
+  const settingsRef = useRef(null);
 
   const [isOpen, setIsOpen] = useState(false);
   const [newValue, setNewValue] = useState("");
   const [isDragable, setIsDragable] = useState(true);
   const [draggingFunctionalItem, setDraggingFunctionalItem] = useState(false);
 
-  // const outSide = useOutsideClick();
+  const refering = () => {
+    setIsOpen(false);
+    setDraggingFunctionalItem(false);
+    setIsOpen(false);
+  };
+
+  useOutsideClick(settingsRef, () => refering());
 
   useEffect(() => {
     if (draggablePiller && draggablePiller === currentCard.id) {
@@ -101,8 +109,6 @@ const Pillar = ({
     addNewCardHandler();
   };
 
-  console.log(item.id, "item.columnIditem.columnId");
-
   const delteHandler = () => {
     if (isOpen) {
       dispatch(deletePiller(item.id));
@@ -124,7 +130,7 @@ const Pillar = ({
     >
       <div className={styles.head}>
         <h2 className={styles.head__title}>{title}</h2>
-        <div>
+        <div ref={settingsRef}>
           <button
             onClick={pillerSettings}
             className={styles.head__piller_setting}
@@ -132,7 +138,7 @@ const Pillar = ({
             • • •
           </button>
           {isOpen ? (
-            <>
+            <div>
               <Delete
                 role="button"
                 onClick={delteHandler}
@@ -158,7 +164,7 @@ const Pillar = ({
                   Cancle
                 </button>
               </div> */}
-            </>
+            </div>
           ) : null}
         </div>
       </div>
@@ -177,7 +183,7 @@ const Pillar = ({
       </div>
       {draggingFunctionalItem ? (
         <form
-          // ref={outSide}
+          ref={settingsRef}
           onSubmit={submitHandler}
           className={styles.section_container__add}
         >
@@ -185,7 +191,7 @@ const Pillar = ({
             type="text"
             value={newValue}
             onChange={changeHandler}
-            placeholder="Enter a title for this card…"
+            placeholder="Enter a title for this card • • •"
             className={styles.section_container__add__new_value}
           />
         </form>

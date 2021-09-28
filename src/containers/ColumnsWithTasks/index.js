@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import shortid from "shortid";
 
+import { useOutsideClick } from "../../hooks";
 import { Piller, Lines } from "../../components";
 import { editLines, addPiller } from "../../store/actions";
 import { ReactComponent as Add } from "../../icons/add.svg";
@@ -16,6 +17,15 @@ const ColumnsWithTasks = () => {
   const [currentLines, setCurrentLines] = useState("");
   const [draggablePiller, setDraggablePiller] = useState(null);
   const [addTitlePosition, setAddTitlePosition] = useState(false);
+
+  const settingsRef = useRef(null);
+
+  const refing = () => {
+    setAddTitlePosition(false);
+    setAddTitle("");
+  };
+
+  useOutsideClick(settingsRef, () => refing());
 
   const piller = useSelector((store) => store.main.piller);
   const lines = useSelector((store) => store.main.lines);
@@ -90,6 +100,7 @@ const ColumnsWithTasks = () => {
       <form
         onSubmit={(e) => e.preventDefault()}
         className={styles.piller_container__frm}
+        ref={settingsRef}
       >
         {addTitlePosition ? (
           <>
