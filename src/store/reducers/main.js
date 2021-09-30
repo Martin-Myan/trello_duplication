@@ -90,7 +90,7 @@ const reducers = (state = initialState, { type, payload }) => {
         ...state,
         lines: state.lines.map((item) => {
           if (item.id === payload.id) {
-            return { ...item, description: payload.value };
+            return { ...item, title: payload.value };
           }
           return item;
         }),

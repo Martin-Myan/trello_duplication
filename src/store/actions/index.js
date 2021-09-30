@@ -19,9 +19,9 @@ export const setPiller = (piller) => ({
   payload: piller,
 });
 
-export const addItem = (id, columnId, description) => ({
+export const addItem = (id, columnId, title) => ({
   type: ADD_ITEM,
-  payload: { id, columnId, description },
+  payload: { id, columnId, title },
 });
 
 export const addPiller = (id, title) => ({

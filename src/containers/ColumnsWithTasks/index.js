@@ -1,135 +1,148 @@
-import React, { useState, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import shortid from "shortid";
+import React, { useState } from "react";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
-import { useOutsideClick } from "../../hooks";
-import { Piller, Lines } from "../../components";
-import { editLines, addPiller } from "../../store/actions";
-import { ReactComponent as Add } from "../../icons/add.svg";
+import { tasckItem } from "../../utils";
+import { Piller } from "../../components";
 
 import styles from "./ColumnsWithTasks.module.scss";
 
+const InnerList = (props) => {
+  const { column, taskMap, index } = props;
+  const tasks = column.taskIds.map((taskId) => taskMap[taskId]);
+  return <Piller column={column} tasks={tasks} index={index} />;
+};
+
 const ColumnsWithTasks = () => {
-  const dispatch = useDispatch();
+  const [dataBase, setDataBase] = useState(tasckItem);
 
-  const [addTitle, setAddTitle] = useState("");
-  const [currentCard, setCurrentCard] = useState(null);
-  const [currentLines, setCurrentLines] = useState("");
-  const [draggablePiller, setDraggablePiller] = useState(null);
-  const [addTitlePosition, setAddTitlePosition] = useState(false);
-
-  const settingsRef = useRef(null);
-
-  const refing = () => {
-    setAddTitlePosition(false);
-    setAddTitle("");
-  };
-
-  useOutsideClick(settingsRef, () => refing());
-
-  const piller = useSelector((store) => store.main.piller);
-  const lines = useSelector((store) => store.main.lines);
-
-  const changeHandler = (e) => {
-    setAddTitle(e.target.value);
-  };
-
-  const addPillerHandler = () => {
-    setAddTitlePosition(!addTitlePosition);
-
-    if (addTitle.trim()) {
-      dispatch(addPiller(shortid.generate(), addTitle));
-      setAddTitle("");
-    }
-  };
-
-  const editCurrentCardHandler = (card) => {
-    setCurrentCard(card);
-  };
-
-  const dragStartHandler = (e, el) => {
-    setDraggablePiller(el.columnId);
-  };
-
-  const dropHandler = (e, el) => {
-    e.preventDefault();
-    setCurrentLines(el.columnId);
-  };
-
-  const dragEndHandler = (e, el, item) => {
-    setCurrentLines(item.id);
-    setDraggablePiller(el.id);
-    dispatch(editLines(el.id, currentLines));
-  };
-
-  const renderItemsToPuller = piller.map((item, index) => {
-    return (
-      <Piller
-        item={item}
-        key={item.id}
-        index={index}
-        lines={lines}
-        piller={piller}
-        currentCard={currentCard}
-        draggablePiller={draggablePiller}
-        editCurrentCard={editCurrentCardHandler}
-      >
-        {lines
-          .filter((element) => element?.columnId === item.id)
-          .map((el) => {
-            return (
-              <Lines
-                el={el}
-                key={el.id}
-                // dragableClick
-                text={el.description}
-                onDrop={(e) => dropHandler(e, el)}
-                onDragStart={(e) => dragStartHandler(e, el)}
-                onDragEnd={(e) => dragEndHandler(e, el, item)}
-              />
-            );
-          })}
-      </Piller>
+  const onDragStart = (start, provided) => {
+    provided.announce(
+      `You have lifted the task in position ${start.source.index + 1}`
     );
-  });
+  };
+
+  const onDragUpdate = (update, provided) => {
+    const message = update.destination
+      ? `You have moved the task to position ${update.destination.index + 1}`
+      : `You are currently not over a droppable area`;
+
+    provided.announce(message);
+  };
+
+  const onDragEnd = (result, provided) => {
+    const message = result.destination
+      ? `You have moved the task from position
+        ${result.source.index + 1} to ${result.destination.index + 1}`
+      : `The task has been returned to its starting position of
+        ${result.source.index + 1}`;
+
+    provided.announce(message);
+
+    const { destination, source, draggableId, type } = result;
+
+    if (!destination) {
+      return;
+    }
+
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+
+    if (type === "column") {
+      const newColumnOrder = Array.from(dataBase.columnOrder);
+      newColumnOrder.splice(source.index, 1);
+      newColumnOrder.splice(destination.index, 0, draggableId);
+
+      const newState = {
+        ...dataBase,
+        columnOrder: newColumnOrder,
+      };
+      setDataBase(newState);
+      return;
+    }
+
+    const home = dataBase.columns[source.droppableId];
+    const foreign = dataBase.columns[destination.droppableId];
+
+    if (home === foreign) {
+      const newTaskIds = Array.from(home.taskIds);
+      newTaskIds.splice(source.index, 1);
+      newTaskIds.splice(destination.index, 0, draggableId);
+
+      const newHome = {
+        ...home,
+        taskIds: newTaskIds,
+      };
+
+      const newState = {
+        ...dataBase,
+        columns: {
+          ...dataBase.columns,
+          [newHome.id]: newHome,
+        },
+      };
+
+      setDataBase(newState);
+      return;
+    }
+
+    const homeTaskIds = Array.from(home.taskIds);
+    homeTaskIds.splice(source.index, 1);
+    const newHome = {
+      ...home,
+      taskIds: homeTaskIds,
+    };
+
+    const foreignTaskIds = Array.from(foreign.taskIds);
+    foreignTaskIds.splice(destination.index, 0, draggableId);
+    const newForeign = {
+      ...foreign,
+      taskIds: foreignTaskIds,
+    };
+
+    const newState = {
+      ...dataBase,
+      columns: {
+        ...dataBase.columns,
+        [newHome.id]: newHome,
+        [newForeign.id]: newForeign,
+      },
+    };
+    setDataBase(newState);
+  };
 
   return (
-    <div className={styles.piller_container}>
-      {renderItemsToPuller}
-
-      <form
-        onSubmit={(e) => e.preventDefault()}
-        className={styles.piller_container__frm}
-        ref={settingsRef}
-      >
-        {addTitlePosition ? (
-          <>
-            <input
-              value={addTitle}
-              onChange={changeHandler}
-              placeholder="Enter list title ..."
-              className={styles.piller_container__frm__inp}
-            />
-            <button
-              onClick={addPillerHandler}
-              className={styles.piller_container__frm__btn}
-            >
-              Save
-            </button>
-          </>
-        ) : (
-          <button
-            onClick={addPillerHandler}
-            className={styles.piller_container__frm__add_piller}
+    <DragDropContext
+      onDragStart={onDragStart}
+      onDragUpdate={onDragUpdate}
+      onDragEnd={onDragEnd}
+    >
+      <Droppable droppableId="all-columns" direction="horizontal" type="column">
+        {(provided) => (
+          <div
+            className={styles.piller_container}
+            {...provided.droppableProps}
+            ref={provided.innerRef}
           >
-            <Add className={styles.piller_container__frm__add_piller__icon} />
-            <p className={styles.piller_container__frm__add_piller__text}>
-              Add another list
-            </p>
-          </button>
+            {dataBase.columnOrder.map((columnId, index) => {
+              const column = dataBase.columns[columnId];
+              return (
+                <InnerList
+                  key={column.id}
+                  column={column}
+                  taskMap={dataBase.tasks}
+                  index={index}
+                />
+              );
+            })}
+            {provided.placeholder}
+          </div>
         )}
-      </form>
-    </div>
+      </Droppable>
+    </DragDropContext>
   );
 };
 

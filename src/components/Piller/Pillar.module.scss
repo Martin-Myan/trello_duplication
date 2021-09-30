@@ -1,3 +1,25 @@
+.column_cont {
+  margin: 8px;
+  width: 220px;
+  border-radius: 2px;
+  background-color: white;
+  border: 1px solid lightgrey;
+
+  display: flex;
+  flex-direction: column;
+
+  &__title {
+    padding: 8px;
+  }
+
+  &_tasck_list {
+    padding: 8px;
+    flex-grow: 1;
+    min-height: 100px;
+    transition: background-color 0.2s ease;
+  }
+}
+
 .section_container {
   width: 100%;
   margin: 0 20px;
