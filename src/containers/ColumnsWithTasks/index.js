@@ -1,19 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { useSelector, useDispatch } from "react-redux";
+import shortid from "shortid";
 
-import { tasckItem } from "../../utils";
 import { Piller } from "../../components";
+import { addPiller } from "../../store/actions";
+import { ReactComponent as Add } from "../../icons/add.svg";
 
 import styles from "./ColumnsWithTasks.module.scss";
 
-const InnerList = (props) => {
-  const { column, taskMap, index } = props;
-  const tasks = column.taskIds.map((taskId) => taskMap[taskId]);
-  return <Piller column={column} tasks={tasks} index={index} />;
-};
-
 const ColumnsWithTasks = () => {
-  const [dataBase, setDataBase] = useState(tasckItem);
+  const dispatch = useDispatch();
+
+  const lines = useSelector((store) => store.main);
+
+  const [dataBase, setDataBase] = useState(lines);
+  const [addTitle, setAddTitle] = useState("");
+  const [addTitlePosition, setAddTitlePosition] = useState(false);
+
+  const InnerList = (props) => {
+    const { column, taskMap, index } = props;
+
+    const tasks = column.taskIds.map((taskId) => taskMap[taskId]);
+
+    return <Piller column={column} tasks={tasks} index={index} />;
+  };
+
+  useEffect(() => {
+    setDataBase(lines);
+  }, [lines]);
 
   const onDragStart = (start, provided) => {
     provided.announce(
@@ -114,6 +129,24 @@ const ColumnsWithTasks = () => {
     setDataBase(newState);
   };
 
+  const changeHandler = (e) => {
+    setAddTitle(e.target.value);
+  };
+
+  const addPillerHandler = () => {
+    setAddTitlePosition(!addTitlePosition);
+
+    if (addTitlePosition && addTitle.trim()) {
+      dispatch(addPiller(shortid.generate(), addTitle));
+      setAddTitle("");
+    }
+  };
+
+  const addNewPillerHandler = (e) => {
+    e.preventDefault();
+    addPillerHandler();
+  };
+
   return (
     <DragDropContext
       onDragStart={onDragStart}
@@ -139,6 +172,37 @@ const ColumnsWithTasks = () => {
               );
             })}
             {provided.placeholder}
+            <form
+              onSubmit={addNewPillerHandler}
+              className={styles.add_new_piller}
+            >
+              {addTitlePosition ? (
+                <>
+                  <input
+                    autoFocus
+                    value={addTitle}
+                    onChange={changeHandler}
+                    placeholder="Enter list title • • •"
+                    className={styles.add_new_piller__inp}
+                  />
+                  <button type="submit" className={styles.add_new_piller__btn}>
+                    Save
+                  </button>
+                </>
+              ) : (
+                <button
+                  onClick={addPillerHandler}
+                  className={styles.piller_container__frm__add_piller}
+                >
+                  <Add
+                    className={styles.piller_container__frm__add_piller__icon}
+                  />
+                  <p className={styles.piller_container__frm__add_piller__text}>
+                    Add another list
+                  </p>
+                </button>
+              )}
+            </form>
           </div>
         )}
       </Droppable>

@@ -19,14 +19,14 @@ export const setPiller = (piller) => ({
   payload: piller,
 });
 
-export const addItem = (id, columnId, title) => ({
+export const addItem = (itemId, title, columnId) => ({
   type: ADD_ITEM,
-  payload: { id, columnId, title },
+  payload: { itemId, title, columnId },
 });
 
-export const addPiller = (id, title) => ({
+export const addPiller = (columnId, title) => ({
   type: ADD_PILLER,
-  payload: { id, title },
+  payload: { columnId, title },
 });
 
 export const editItem = (value, id) => ({
