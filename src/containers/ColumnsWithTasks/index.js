@@ -14,9 +14,23 @@ const ColumnsWithTasks = () => {
 
   const lines = useSelector((store) => store.main);
 
-  const [dataBase, setDataBase] = useState(lines);
   const [addTitle, setAddTitle] = useState("");
+  const [dataBase, setDataBase] = useState(lines);
   const [addTitlePosition, setAddTitlePosition] = useState(false);
+
+  const addPillerHandler = () => {
+    setAddTitlePosition(!addTitlePosition);
+
+    if (addTitlePosition && addTitle.trim()) {
+      dispatch(addPiller(shortid.generate(), addTitle));
+      setAddTitle("");
+    }
+  };
+
+  const addNewPillerHandler = (e) => {
+    e.preventDefault();
+    addPillerHandler();
+  };
 
   const InnerList = (props) => {
     const { column, taskMap, index } = props;
@@ -26,33 +40,20 @@ const ColumnsWithTasks = () => {
     return <Piller column={column} tasks={tasks} index={index} />;
   };
 
-  useEffect(() => {
-    setDataBase(lines);
-  }, [lines]);
+  // const onDragStart = (start, provided) => {
+  //   // provided.announce(
+  //   //   `You have lifted the task in position ${start.source.index + 1}`
+  //   // );
+  // };
 
-  const onDragStart = (start, provided) => {
-    provided.announce(
-      `You have lifted the task in position ${start.source.index + 1}`
-    );
-  };
+  // const onDragUpdate = (update, provided) => {
+  //   // const message = update.destination
+  //   //   ? `You have moved the task to position ${update.destination.index + 1}`
+  //   //   : `You are currently not over a droppable area`;
+  //   // provided.announce(message);
+  // };
 
-  const onDragUpdate = (update, provided) => {
-    const message = update.destination
-      ? `You have moved the task to position ${update.destination.index + 1}`
-      : `You are currently not over a droppable area`;
-
-    provided.announce(message);
-  };
-
-  const onDragEnd = (result, provided) => {
-    const message = result.destination
-      ? `You have moved the task from position
-        ${result.source.index + 1} to ${result.destination.index + 1}`
-      : `The task has been returned to its starting position of
-        ${result.source.index + 1}`;
-
-    provided.announce(message);
-
+  const onDragEnd = (result) => {
     const { destination, source, draggableId, type } = result;
 
     if (!destination) {
@@ -128,29 +129,14 @@ const ColumnsWithTasks = () => {
     };
     setDataBase(newState);
   };
-
-  const changeHandler = (e) => {
-    setAddTitle(e.target.value);
-  };
-
-  const addPillerHandler = () => {
-    setAddTitlePosition(!addTitlePosition);
-
-    if (addTitlePosition && addTitle.trim()) {
-      dispatch(addPiller(shortid.generate(), addTitle));
-      setAddTitle("");
-    }
-  };
-
-  const addNewPillerHandler = (e) => {
-    e.preventDefault();
-    addPillerHandler();
-  };
+  useEffect(() => {
+    setDataBase(lines);
+  }, [lines]);
 
   return (
     <DragDropContext
-      onDragStart={onDragStart}
-      onDragUpdate={onDragUpdate}
+      // onDragStart={onDragStart}
+      // onDragUpdate={onDragUpdate}
       onDragEnd={onDragEnd}
     >
       <Droppable droppableId="all-columns" direction="horizontal" type="column">
@@ -164,10 +150,10 @@ const ColumnsWithTasks = () => {
               const column = dataBase.columns[columnId];
               return (
                 <InnerList
+                  index={index}
                   key={column.id}
                   column={column}
                   taskMap={dataBase.tasks}
-                  index={index}
                 />
               );
             })}
@@ -181,9 +167,9 @@ const ColumnsWithTasks = () => {
                   <input
                     autoFocus
                     value={addTitle}
-                    onChange={changeHandler}
                     placeholder="Enter list title • • •"
                     className={styles.add_new_piller__inp}
+                    onChange={(e) => setAddTitle(e.target.value)}
                   />
                   <button type="submit" className={styles.add_new_piller__btn}>
                     Save

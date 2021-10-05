@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from "react";
+import shortid from "shortid";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import shortid from "shortid";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 
 import { addItem, deletePiller /*setPiller*/ } from "../../store/actions";
@@ -28,6 +28,7 @@ const Pillar = ({ column, index, tasks }) => {
         )),
       [tasks]
     );
+
     return taksList;
   };
 
@@ -79,7 +80,7 @@ const Pillar = ({ column, index, tasks }) => {
               onClick={pillerSettings}
               className={styles.column_cont_block_settings}
             >
-              • • •
+              {isOpen ? null : "• • •"}
               {isOpen ? (
                 <div className={styles.head}>
                   <Delete
